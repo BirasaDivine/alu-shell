@@ -1,38 +1,14 @@
 #!/usr/bin/env bash
-# Init script to manage manage_my_process.sh
-if [ "${1}" == "start" ]; then
-	./manage_my_process &
-	
-	touch /var/run/my_process.pid
+# Indefinitely writes "I am alive" to the file /tmp/my_process.
+#   Pauses two seconds in between each message.
 
-    	echo "$!" > /var/run/my_process.pid
+while true
 
-    	echo "manage_my_process started"
+do
 
-elif [ "${1}" == "stop" ]; then
+  echo "I am alive!" >> /tmp/my_process
 
-    	echo "manage_my_process stopped"
+  sleep 2
 
-    	kill "$(cat /var/run/my_process.pid)"
+done
 
-    	rm /var/run/my_process.pid
-
-elif [ "${1}" == "restart" ]; then
-
-    	kill "$(cat /var/run/my_process.pid)"
-
-    	rm /var/run/my_process.pid
-
-    	./manage_my_process &
-
-    	touch /var/run/my_process.pid
-
-    	echo "$!" > /var/run/my_process.pid
-
-    	echo "manage_my_process restarted"
-
-else
-
-    	echo "Usage: manage_my_process {start|stop|restart}"
-
-fi
